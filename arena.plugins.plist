@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>project</key>
+	<string>ArenaDevicesSDK</string>
+	<key>namespace</key>
+	<string>ArenaDevicesSDK</string>
+	<key>supports</key>
+	<array>
+		<dict>
+			<key>api</key>
+			<string>arena.device.base.getUUID</string>
+			<key>method</key>
+			<string>uuid</string>
+			<key>className</key>
+			<string>Device</string>
+			<key>async</key>
+			<false/>
+		</dict>
+	</array>
+</dict>
+</plist>
