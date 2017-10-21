@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ArenaDeviceSDK"
-  s.version      = "1.0.2"
+  s.version      = "1.0.3"
   s.summary      = "Arena设备相关的SDK"
 
   # This description is used to generate tags and improve search results.
@@ -111,7 +111,7 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  # s.resources = "Resources/*.png"
+  s.resources = "*.plist"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
