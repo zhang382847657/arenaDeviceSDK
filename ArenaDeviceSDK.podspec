@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ArenaDeviceSDK"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "Arena设备相关的SDK"
 
   # This description is used to generate tags and improve search results.
@@ -25,7 +25,12 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-
+                    Arena设备相关的SDK
+                    -获取设备UUID
+                    -获取系统当前版本
+                    -获取APP名字
+                    -获取APP当前版本
+                    -获取APP Build版本
                    DESC
 
   s.homepage     = "https://github.com/zhang382847657/arenaDeviceSDK"
@@ -65,7 +70,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  # s.platform     = :ios, "5.0"
+  # s.platform     = :ios, "8.0"
 
   #  When using multiple platforms
   s.ios.deployment_target = "8.0"
@@ -91,7 +96,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "Classes", "Classes/**/*.{h,swift}"
+  s.source_files  = "ArenaDeviceSDK", "ArenaDeviceSDK/**/*.{h,swift}"
   # s.exclude_files = "Classes/Exclude"
 
   s.public_header_files = "ArenaDeviceSDK/ArenaDeviceSDK.h"
