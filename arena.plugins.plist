@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>project</key>
-	<string>ArenaDevicesSDK</string>
+	<string>ArenaDeviceSDK</string>
 	<key>namespace</key>
-	<string>ArenaDevicesSDK</string>
+	<string>ArenaDeviceSDK</string>
 	<key>supports</key>
 	<array>
 		<dict>
