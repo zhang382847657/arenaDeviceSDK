@@ -18,6 +18,26 @@
 			<key>async</key>
 			<false/>
 		</dict>
+		<dict>
+			<key>api</key>
+			<string>arena.extra.version</string>
+			<key>method</key>
+			<string>appVersion</string>
+			<key>className</key>
+			<string>Device</string>
+			<key>async</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>api</key>
+			<string>arena.biz.util.scan</string>
+			<key>method</key>
+			<string>scanQRCode</string>
+			<key>className</key>
+			<string>Device</string>
+			<key>async</key>
+			<string>NO</string>
+		</dict>
 	</array>
 </dict>
 </plist>

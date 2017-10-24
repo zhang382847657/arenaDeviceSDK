@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		633A9D131F9ED995005EC81F /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633A9D121F9ED995005EC81F /* QRViewController.swift */; };
+		633A9D291F9F2D87005EC81F /* images.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 633A9D281F9F2D87005EC81F /* images.bundle */; };
 		638EC20D1F9B1B6300EABC2B /* ArenaDeviceSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638EC2031F9B1B6300EABC2B /* ArenaDeviceSDK.framework */; };
 		638EC2121F9B1B6300EABC2B /* ArenaDeviceSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638EC2111F9B1B6300EABC2B /* ArenaDeviceSDKTests.swift */; };
 		638EC2141F9B1B6300EABC2B /* ArenaDeviceSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 638EC2061F9B1B6300EABC2B /* ArenaDeviceSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638EC21E1F9B1DED00EABC2B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638EC21D1F9B1DED00EABC2B /* Device.swift */; };
 		638EC28B1F9B419A00EABC2B /* arena.plugins.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638EC28A1F9B419A00EABC2B /* arena.plugins.plist */; };
 		638EC28D1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 638EC28C1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec */; };
+		639DF3741F9D9C0B0073D79F /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639DF3731F9D9C0B0073D79F /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		633A9D121F9ED995005EC81F /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		633A9D281F9F2D87005EC81F /* images.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = images.bundle; sourceTree = "<group>"; };
 		638EC2031F9B1B6300EABC2B /* ArenaDeviceSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ArenaDeviceSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		638EC2061F9B1B6300EABC2B /* ArenaDeviceSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArenaDeviceSDK.h; sourceTree = "<group>"; };
 		638EC2071F9B1B6300EABC2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -35,6 +40,7 @@
 		638EC21D1F9B1DED00EABC2B /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		638EC28A1F9B419A00EABC2B /* arena.plugins.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = arena.plugins.plist; sourceTree = "<group>"; };
 		638EC28C1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ArenaDeviceSDK.podspec; sourceTree = "<group>"; };
+		639DF3731F9D9C0B0073D79F /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,9 @@
 				638EC2061F9B1B6300EABC2B /* ArenaDeviceSDK.h */,
 				638EC2071F9B1B6300EABC2B /* Info.plist */,
 				638EC21D1F9B1DED00EABC2B /* Device.swift */,
+				633A9D121F9ED995005EC81F /* QRViewController.swift */,
+				639DF3731F9D9C0B0073D79F /* UIViewController.swift */,
+				633A9D281F9F2D87005EC81F /* images.bundle */,
 			);
 			path = ArenaDeviceSDK;
 			sourceTree = "<group>";
@@ -172,6 +181,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 638EC1F91F9B1B6300EABC2B;
 			productRefGroup = 638EC2041F9B1B6300EABC2B /* Products */;
@@ -190,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				638EC28B1F9B419A00EABC2B /* arena.plugins.plist in Resources */,
+				633A9D291F9F2D87005EC81F /* images.bundle in Resources */,
 				638EC28D1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +220,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				638EC21E1F9B1DED00EABC2B /* Device.swift in Sources */,
+				639DF3741F9D9C0B0073D79F /* UIViewController.swift in Sources */,
+				633A9D131F9ED995005EC81F /* QRViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +293,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -334,7 +347,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -359,6 +372,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhanglin.ArenaDeviceSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -383,6 +397,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhanglin.ArenaDeviceSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

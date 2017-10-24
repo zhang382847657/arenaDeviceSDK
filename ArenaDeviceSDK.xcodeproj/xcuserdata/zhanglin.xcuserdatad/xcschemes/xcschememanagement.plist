@@ -7,7 +7,25 @@
 		<key>ArenaDeviceSDK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>638EC2021F9B1B6300EABC2B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>638EC20B1F9B1B6300EABC2B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>639DF4361F9DD7090073D79F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
