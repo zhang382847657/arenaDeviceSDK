@@ -51,7 +51,6 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         self.session.canSetSessionPreset(AVCaptureSession.Preset.high)
         
         //获取摄像设备
-        
         let device: AVCaptureDevice = AVCaptureDevice.default(for: .video)!
         
         //捕捉异常，并处理
