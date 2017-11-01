@@ -11,19 +11,36 @@ import AVFoundation
 
 class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
-    var session: AVCaptureSession!  //输入输出的中间桥梁
+    private var session: AVCaptureSession!  //输入输出的中间桥梁
     
-    var myInput: AVCaptureDeviceInput!  //创建输入流
-    var myOutput: AVCaptureMetadataOutput!  //创建输出流
+    private var myInput: AVCaptureDeviceInput!  //创建输入流
+    private var myOutput: AVCaptureMetadataOutput!  //创建输出流
     
-    var bgView = UIView()
-    var barcodeView = UIView()
+    private var bgView = UIView()
+    private var barcodeView = UIView()
     
-    var timer = Timer()
-    var scanLine = UIImageView()
+    private var timer = Timer()
+    private var scanLine = UIImageView()
+    
+    private var closeBtn = UIButton(type: .custom) //右上角关闭按钮
+    
+    private var data:Dictionary<String,Any>!
+    
+    
+    //初始化页面
+    // -Params data 用来拿到callbackID的
+    init(data:Dictionary<String,Any>) {
+        super.init(nibName: nil, bundle: nil)
+        self.data = data
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         //设置定时器，延迟2秒启动
         self.timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(moveScannerLayer(_:)), userInfo: nil, repeats: true)
@@ -86,31 +103,41 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
            // self.timer.invalidate()
             
             let object = metadataObjects[0]
-            let string: String = (object as AnyObject).stringValue
-            if let url = URL(string: string) {
-                if UIApplication.shared.canOpenURL(url) {
-                    self.navigationController?.popViewController(animated: true)
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url)
-                    } else {
-                        UIApplication.shared.openURL(url)
-                    }
-                    //去打开地址链接
-                } else {
-                    //获取非链接结果
-                    let alertViewController = UIAlertController(title: "扫描结果", message: (object as AnyObject).stringValue, preferredStyle: .alert)
-                    let actionCancel = UIAlertAction(title: "退出", style: .cancel, handler: { (action) in
-                        _ = self.navigationController?.popViewController(animated: true)
-                    })
-                    let actinSure = UIAlertAction(title: "再次扫描", style: .default, handler: { (action) in
-                        self.session.startRunning()
-                        self.timer.fire()
-                    })
-                    alertViewController.addAction(actionCancel)
-                    alertViewController.addAction(actinSure)
-                    self.present(alertViewController, animated: true, completion: nil)
-                }
-            }
+            let string: String = (object as AnyObject).stringValue //扫描的结果
+            debugPrint("扫描结果 == \(string)")
+            
+            //把扫描的结果回传过去
+            let result = ["result": "success","data":string]
+            NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data["callback"] as! String), object: result, userInfo: nil)
+            self.dismiss(animated: true, completion: {
+                
+            })
+            
+            
+//            if let url = URL(string: string) {
+//                if UIApplication.shared.canOpenURL(url) {
+//                    self.navigationController?.popViewController(animated: true)
+//                    if #available(iOS 10.0, *) {
+//                        UIApplication.shared.open(url)
+//                    } else {
+//                        UIApplication.shared.openURL(url)
+//                    }
+//                    //去打开地址链接
+//                } else {
+//                    //获取非链接结果
+//                    let alertViewController = UIAlertController(title: "扫描结果", message: (object as AnyObject).stringValue, preferredStyle: .alert)
+//                    let actionCancel = UIAlertAction(title: "退出", style: .cancel, handler: { (action) in
+//                        _ = self.navigationController?.popViewController(animated: true)
+//                    })
+//                    let actinSure = UIAlertAction(title: "再次扫描", style: .default, handler: { (action) in
+//                        self.session.startRunning()
+//                        self.timer.fire()
+//                    })
+//                    alertViewController.addAction(actionCancel)
+//                    alertViewController.addAction(actinSure)
+//                    self.present(alertViewController, animated: true, completion: nil)
+//                }
+//            }
         }
     
     }
@@ -121,6 +148,12 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         self.bgView.frame = UIScreen.main.bounds
         self.bgView.backgroundColor = UIColor.black
         self.view.addSubview(self.bgView)
+        
+        //右上角关闭按钮
+        self.closeBtn.frame = CGRect(x: UIScreen.main.bounds.width - 44 - 20, y: 25, width: 44, height: 44)
+        self.closeBtn.setImage(UIImage(named: "ArenaDeviceSDK.framework/images.bundle/close"), for: .normal)
+        self.closeBtn.addTarget(self, action: #selector(closeCurrentViewController), for: .touchUpInside)
+        self.view.addSubview(self.closeBtn)
         
         //灰色蒙版
         let topView = UIView(frame: CGRect(x: 0, y: 0,  width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35))
@@ -159,7 +192,6 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         
         //扫描线
         scanLine.frame = CGRect(x: 0, y: 0, width: barcodeView.frame.size.width, height: 5)
-//        scanLine.backgroundColor = UIColor.green
         scanLine.image = UIImage(named: "ArenaDeviceSDK.framework/images.bundle/icon_line")
         barcodeView.addSubview(scanLine)
     }
@@ -174,12 +206,24 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         }
     }
     
+    //关闭当前页
+    @objc func closeCurrentViewController(sender:UIButton){
+        
+        //停止扫描
+        self.session.stopRunning()
+        //计时器销毁
+        self.timer.invalidate()
+        //关闭页面
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     deinit {
+        
         self.timer.invalidate() //计时器停止
     }
     

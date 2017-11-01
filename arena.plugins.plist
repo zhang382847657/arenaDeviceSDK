@@ -32,11 +32,11 @@
 			<key>api</key>
 			<string>arena.biz.util.scan</string>
 			<key>method</key>
-			<string>scanQRCode</string>
+			<string>scanQRCode:</string>
 			<key>className</key>
 			<string>Device</string>
 			<key>async</key>
-			<string>NO</string>
+			<true/>
 		</dict>
 	</array>
 </dict>

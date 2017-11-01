@@ -39,9 +39,10 @@ public class Device: NSObject {
     }
     
     //扫描二维码、条形码
-    public class func scanQRCode() {
-        let scanViewController = QRViewController()
-    UIViewController.currentViewController()?.navigationController?.pushViewController(scanViewController, animated: true)
+    public class func scanQRCode(data:Dictionary<String,Any>) {
+        let scanViewController = QRViewController(data: data)
+        
+        UIViewController.currentViewController()?.present(scanViewController, animated: true, completion: nil)
     }
     
     

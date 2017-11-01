@@ -15,6 +15,7 @@
 		638EC21E1F9B1DED00EABC2B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638EC21D1F9B1DED00EABC2B /* Device.swift */; };
 		638EC28B1F9B419A00EABC2B /* arena.plugins.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638EC28A1F9B419A00EABC2B /* arena.plugins.plist */; };
 		638EC28D1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 638EC28C1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec */; };
+		6393EAFD1FA9723300A31ECE /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6393EAFC1FA9723300A31ECE /* Info.plist */; };
 		639DF3741F9D9C0B0073D79F /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639DF3731F9D9C0B0073D79F /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,13 +34,13 @@
 		633A9D281F9F2D87005EC81F /* images.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = images.bundle; sourceTree = "<group>"; };
 		638EC2031F9B1B6300EABC2B /* ArenaDeviceSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ArenaDeviceSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		638EC2061F9B1B6300EABC2B /* ArenaDeviceSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArenaDeviceSDK.h; sourceTree = "<group>"; };
-		638EC2071F9B1B6300EABC2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		638EC20C1F9B1B6300EABC2B /* ArenaDeviceSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArenaDeviceSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		638EC2111F9B1B6300EABC2B /* ArenaDeviceSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaDeviceSDKTests.swift; sourceTree = "<group>"; };
 		638EC2131F9B1B6300EABC2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		638EC21D1F9B1DED00EABC2B /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		638EC28A1F9B419A00EABC2B /* arena.plugins.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = arena.plugins.plist; sourceTree = "<group>"; };
 		638EC28C1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ArenaDeviceSDK.podspec; sourceTree = "<group>"; };
+		6393EAFC1FA9723300A31ECE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		639DF3731F9D9C0B0073D79F /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,8 +86,8 @@
 		638EC2051F9B1B6300EABC2B /* ArenaDeviceSDK */ = {
 			isa = PBXGroup;
 			children = (
+				6393EAFC1FA9723300A31ECE /* Info.plist */,
 				638EC2061F9B1B6300EABC2B /* ArenaDeviceSDK.h */,
-				638EC2071F9B1B6300EABC2B /* Info.plist */,
 				638EC21D1F9B1DED00EABC2B /* Device.swift */,
 				633A9D121F9ED995005EC81F /* QRViewController.swift */,
 				639DF3731F9D9C0B0073D79F /* UIViewController.swift */,
@@ -199,6 +200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6393EAFD1FA9723300A31ECE /* Info.plist in Resources */,
 				638EC28B1F9B419A00EABC2B /* arena.plugins.plist in Resources */,
 				633A9D291F9F2D87005EC81F /* images.bundle in Resources */,
 				638EC28D1F9B45EA00EABC2B /* ArenaDeviceSDK.podspec in Resources */,
