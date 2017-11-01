@@ -48,10 +48,10 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         //初始化链接对象
         self.session = AVCaptureSession.init()
         //设置高质量采集率
-        self.session.canSetSessionPreset(AVCaptureSession.Preset.high)
+        self.session.canSetSessionPreset(AVCaptureSessionPresetHigh)
         
         //获取摄像设备
-        let device: AVCaptureDevice = AVCaptureDevice.default(for: .video)!
+        let device: AVCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         //捕捉异常，并处理
         do {
@@ -70,7 +70,14 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         self.myOutput.rectOfInterest = CGRect(x: 0.35, y: 0.2, width: UIScreen.main.bounds.width * 0.6 / UIScreen.main.bounds.height, height: 0.6)
         
         //设置扫码支持的编码格式(如下设置条形码和二维码兼容)
-        myOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr, AVMetadataObject.ObjectType.ean13,  AVMetadataObject.ObjectType.ean8, AVMetadataObject.ObjectType.code128]
+        myOutput.metadataObjectTypes = [
+            AVMetadataObjectTypeQRCode,
+            AVMetadataObjectTypeCode39Code,
+            AVMetadataObjectTypeCode128Code,
+            AVMetadataObjectTypeCode39Mod43Code,
+            AVMetadataObjectTypeEAN13Code,
+            AVMetadataObjectTypeEAN8Code,
+            AVMetadataObjectTypeCode93Code]
         
         //创建串行队列
         let dispatchQueue = DispatchQueue(label: "queue", attributes: [])
@@ -79,9 +86,9 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         
         //创建预览图层
         let myLayer = AVCaptureVideoPreviewLayer.init(session: self.session)
-        myLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill  //设置预览图层的填充方式
-        myLayer.frame = self.view.layer.bounds  //设置预览图层的frame
-        self.bgView.layer.insertSublayer(myLayer, at: 0)  //将预览图层(摄像头画面)插入到预览视图的最底部
+        myLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill  //设置预览图层的填充方式
+        myLayer?.frame = self.view.layer.bounds  //设置预览图层的frame
+        self.bgView.layer.insertSublayer(myLayer!, at: 0)  //将预览图层(摄像头画面)插入到预览视图的最底部
         
         //开始扫描
         self.session.startRunning()

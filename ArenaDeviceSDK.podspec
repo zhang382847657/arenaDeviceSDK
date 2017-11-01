@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ArenaDeviceSDK"
-  s.version      = "1.0.51"
+  s.version      = "1.0.6"
   s.summary      = "Arena设备相关的SDK"
 
   # This description is used to generate tags and improve search results.
