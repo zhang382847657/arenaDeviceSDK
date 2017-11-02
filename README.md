@@ -11,8 +11,8 @@
 pod 'ArenaDeviceSDK'
 ```
 
-> 注意：请在项目Build Phases -> Copy Bundle Resources 中添加AreanDeviceSDK.framework，否则会影响图片的正常显示
 
+> **注意：** 如果使用到了扫一扫功能，请在项目的Info.plist增加 `Privacy - Camera Usage Description` 访问相机的权限
 
 ### 获取UUID
  
