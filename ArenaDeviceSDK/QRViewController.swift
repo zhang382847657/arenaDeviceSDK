@@ -48,7 +48,6 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
             debugPrint("请用真机来调试该功能")
             //关闭页面
             self.dismiss(animated: true, completion: nil)
-            return
         #endif
         
         //获取相机权限
@@ -128,9 +127,8 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         }
     }
     
-    
     //扫描结果，代理
-    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection){
+    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         
         if metadataObjects.count > 0 {
             
@@ -149,8 +147,9 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data["callback"] as! String), object: result, userInfo: nil)
             })
         }
-    
+        
     }
+    
     
     //创建预览视图
     func createBackGroundView() {
