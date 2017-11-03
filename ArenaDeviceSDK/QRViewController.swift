@@ -28,6 +28,7 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
     
     private var data:Dictionary<String,Any>!
     private var canUse:Bool = true //用来判断能否使用扫一扫功能
+    private var isSimulator:Bool = false //是否是模拟器
     
     
     //初始化页面
@@ -35,6 +36,11 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
     init(data:Dictionary<String,Any>) {
         super.init(nibName: nil, bundle: nil)
         self.data = data
+        
+        #if arch(i386) || arch(x86_64)  //判断是否是虚拟机
+            self.isSimulator = true
+            debugPrint("请用真机来调试该功能")
+        #endif
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,71 +50,71 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        #if arch(i386) || arch(x86_64)  //判断是否是虚拟机
-            debugPrint("请用真机来调试该功能")
-            //关闭页面
-            self.dismiss(animated: true, completion: nil)
-        #endif
-        
-        //获取相机权限
-        let authStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
-        if (authStatus != .restricted && authStatus != .denied) == false { //如果用户没有授权访问相机的权限
-            self.canUse = false
-            return
+        if self.isSimulator == false { //如果不是在虚拟机上运行
+            
+            //获取相机权限
+            let authStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+            if (authStatus != .restricted && authStatus != .denied) == false { //如果用户没有授权访问相机的权限
+                self.canUse = false
+                return
+            }
+            
+            //设置定时器，延迟2秒启动
+            self.timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(moveScannerLayer(_:)), userInfo: nil, repeats: true)
+            
+            //初始化链接对象
+            self.session = AVCaptureSession.init()
+            //设置高质量采集率
+            self.session.canSetSessionPreset(AVCaptureSessionPresetHigh)
+            
+            //获取摄像设备
+            let device: AVCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+            
+            //捕捉异常，并处理
+            do {
+                self.myInput = try AVCaptureDeviceInput.init(device: device)
+                self.myOutput = AVCaptureMetadataOutput.init()
+                self.session.addInput(self.myInput)
+                self.session.addOutput(self.myOutput)
+            } catch {
+                debugPrint("error")
+            }
+            
+            //创建预览视图
+            self.createBackGroundView()
+            
+            //设置扫描范围(横屏)
+            self.myOutput.rectOfInterest = CGRect(x: 0.35, y: 0.2, width: UIScreen.main.bounds.width * 0.6 / UIScreen.main.bounds.height, height: 0.6)
+            
+            //设置扫码支持的编码格式(如下设置条形码和二维码兼容)
+            self.myOutput.metadataObjectTypes = [
+                AVMetadataObjectTypeQRCode,
+                AVMetadataObjectTypeCode39Code,
+                AVMetadataObjectTypeCode128Code,
+                AVMetadataObjectTypeCode39Mod43Code,
+                AVMetadataObjectTypeEAN13Code,
+                AVMetadataObjectTypeEAN8Code,
+                AVMetadataObjectTypeCode93Code]
+            
+            //创建串行队列
+            let dispatchQueue = DispatchQueue(label: "queue", attributes: [])
+            //设置输出流的代理
+            self.myOutput!.setMetadataObjectsDelegate(self, queue: dispatchQueue)
+            
+            //创建预览图层
+            let myLayer = AVCaptureVideoPreviewLayer.init(session: self.session)
+            myLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill  //设置预览图层的填充方式
+            myLayer?.frame = self.view.layer.bounds  //设置预览图层的frame
+            self.bgView.layer.insertSublayer(myLayer!, at: 0)  //将预览图层(摄像头画面)插入到预览视图的最底部
+            
+            //开始扫描
+            self.session.startRunning()
+            
+            //        self.timer.fire()
+            
+        }else{
+            self.view.backgroundColor = UIColor.white
         }
-        
-        //设置定时器，延迟2秒启动
-        self.timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(moveScannerLayer(_:)), userInfo: nil, repeats: true)
-        
-        //初始化链接对象
-        self.session = AVCaptureSession.init()
-        //设置高质量采集率
-        self.session.canSetSessionPreset(AVCaptureSessionPresetHigh)
-        
-        //获取摄像设备
-        let device: AVCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        
-        //捕捉异常，并处理
-        do {
-            self.myInput = try AVCaptureDeviceInput.init(device: device)
-            self.myOutput = AVCaptureMetadataOutput.init()
-            self.session.addInput(self.myInput)
-            self.session.addOutput(self.myOutput)
-        } catch {
-            debugPrint("error")
-        }
-        
-        //创建预览视图
-        self.createBackGroundView()
-        
-        //设置扫描范围(横屏)
-        self.myOutput.rectOfInterest = CGRect(x: 0.35, y: 0.2, width: UIScreen.main.bounds.width * 0.6 / UIScreen.main.bounds.height, height: 0.6)
-        
-        //设置扫码支持的编码格式(如下设置条形码和二维码兼容)
-        self.myOutput.metadataObjectTypes = [
-            AVMetadataObjectTypeQRCode,
-            AVMetadataObjectTypeCode39Code,
-            AVMetadataObjectTypeCode128Code,
-            AVMetadataObjectTypeCode39Mod43Code,
-            AVMetadataObjectTypeEAN13Code,
-            AVMetadataObjectTypeEAN8Code,
-            AVMetadataObjectTypeCode93Code]
-        
-        //创建串行队列
-        let dispatchQueue = DispatchQueue(label: "queue", attributes: [])
-        //设置输出流的代理
-        self.myOutput!.setMetadataObjectsDelegate(self, queue: dispatchQueue)
-        
-        //创建预览图层
-        let myLayer = AVCaptureVideoPreviewLayer.init(session: self.session)
-        myLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill  //设置预览图层的填充方式
-        myLayer?.frame = self.view.layer.bounds  //设置预览图层的frame
-        self.bgView.layer.insertSublayer(myLayer!, at: 0)  //将预览图层(摄像头画面)插入到预览视图的最底部
-        
-        //开始扫描
-        self.session.startRunning()
-        
-//        self.timer.fire()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,12 +125,27 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
             
             let tempAction = UIAlertAction(title: "确定", style: .cancel) { (action) in
                 
-                //关闭页面
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                   
+                    let result = ["result": "failed","data":"设备没有开放相机的权限"]
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data["callback"] as! String), object: result, userInfo: nil)
+                })
+                return
             }
             alert.addAction(tempAction)
             self.present(alert, animated: true, completion: nil)
         }
+        
+        if self.isSimulator == true {
+            
+            self.dismiss(animated: true, completion: {
+             
+                let result = ["result": "failed","data":"模拟器不支持扫描功能，请使用真机来调试"]
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data["callback"] as! String), object: result, userInfo: nil)
+            })
+            return
+        }
+        
     }
     
     //扫描结果，代理
@@ -224,7 +245,7 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
             //计时器销毁
             self.timer.invalidate()
         }
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -238,3 +259,4 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
     }
     
 }
+
