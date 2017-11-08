@@ -31,6 +31,11 @@ class QRViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate
     private var isSimulator:Bool = false //是否是模拟器
     
     
+    public class func imagePicker(){
+        
+    }
+    
+    
     //初始化页面
     // -Params data 用来拿到callbackID的
     init(data:Dictionary<String,Any>) {

@@ -38,11 +38,20 @@ public class Device: NSObject {
         return infoDic?["CFBundleDisplayName"] as? String
     }
     
-    //扫描二维码、条形码
+    ///扫描二维码、条形码
     public class func scanQRCode(_ data:Dictionary<String,Any>) {
         let scanViewController = QRViewController(data: data)
         
         UIViewController.currentViewController()?.present(scanViewController, animated: true, completion: nil)
+    }
+    
+    ///选择照片
+    public class func choosPic(_ data:Dictionary<String,Any>){
+        
+        let imagePicker =  ImagePicker.sharedInstance
+        imagePicker.data = data
+        imagePicker.presentImagePicker()
+        
     }
     
     

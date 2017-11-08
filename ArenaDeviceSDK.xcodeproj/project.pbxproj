@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6310E55C1FB04A86009FEF5F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6310E55B1FB04A86009FEF5F /* ImagePicker.swift */; };
 		633A9D131F9ED995005EC81F /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633A9D121F9ED995005EC81F /* QRViewController.swift */; };
 		633A9D291F9F2D87005EC81F /* images.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 633A9D281F9F2D87005EC81F /* images.bundle */; };
 		638EC20D1F9B1B6300EABC2B /* ArenaDeviceSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638EC2031F9B1B6300EABC2B /* ArenaDeviceSDK.framework */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6310E55B1FB04A86009FEF5F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		633A9D121F9ED995005EC81F /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
 		633A9D281F9F2D87005EC81F /* images.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = images.bundle; sourceTree = "<group>"; };
 		638EC2031F9B1B6300EABC2B /* ArenaDeviceSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ArenaDeviceSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +93,7 @@
 				638EC21D1F9B1DED00EABC2B /* Device.swift */,
 				633A9D121F9ED995005EC81F /* QRViewController.swift */,
 				639DF3731F9D9C0B0073D79F /* UIViewController.swift */,
+				6310E55B1FB04A86009FEF5F /* ImagePicker.swift */,
 				633A9D281F9F2D87005EC81F /* images.bundle */,
 			);
 			path = ArenaDeviceSDK;
@@ -222,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				638EC21E1F9B1DED00EABC2B /* Device.swift in Sources */,
+				6310E55C1FB04A86009FEF5F /* ImagePicker.swift in Sources */,
 				639DF3741F9D9C0B0073D79F /* UIViewController.swift in Sources */,
 				633A9D131F9ED995005EC81F /* QRViewController.swift in Sources */,
 			);
