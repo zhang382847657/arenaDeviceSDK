@@ -45,8 +45,8 @@ public class Device: NSObject {
         UIViewController.currentViewController()?.present(scanViewController, animated: true, completion: nil)
     }
     
-    ///选择照片
-    public class func choosPic(_ data:Dictionary<String,Any>){
+    ///拍照+选照片
+    public class func takePhoto(_ data:Dictionary<String,Any>){
         
         let imagePicker =  ImagePicker.sharedInstance
         imagePicker.data = data

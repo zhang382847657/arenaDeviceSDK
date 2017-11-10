@@ -38,6 +38,16 @@
 			<key>async</key>
 			<true/>
 		</dict>
+		<dict>
+			<key>api</key>
+			<string>arena.biz.util.photo</string>
+			<key>method</key>
+			<string>takePhoto:</string>
+			<key>className</key>
+			<string>Device</string>
+			<key>async</key>
+			<true/>
+		</dict>
 	</array>
 </dict>
 </plist>
