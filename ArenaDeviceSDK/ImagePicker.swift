@@ -26,20 +26,20 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
     public var data:Dictionary<String,Any>?{
         didSet
         {
-            self.retrunOriginal = data?["retrunOriginal"] as? Bool
-            if let retrunOriginal = self.retrunOriginal{
+            self.returnOriginal = data?["returnOriginal"] as? Bool
+            if let retrunOriginal = self.returnOriginal{
                 if retrunOriginal == false{
                     self.maxSize = data?["maxSize"] as? Int ?? 500
                     self.returnType = data?["returnType"] as? Int
                 }
             }else{
-                self.retrunOriginal = false
+                self.returnOriginal = false
             }
         }
     }
     private var imagePickerController:UIImagePickerController = UIImagePickerController() //图片选择视图控制器
     
-    private var retrunOriginal:Bool? //是否返回原图  默认不返回原图
+    private var returnOriginal:Bool? //是否返回原图  默认不返回原图
     private var maxSize:Int = 500 //允许图片返回的最大大小(单位：kb)  默认500kb
     private var returnType:Int? //返回数据的类型  1：base64
     
@@ -49,7 +49,7 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
         self.imagePickerController.delegate = self //设置代理
         self.imagePickerController.allowsEditing = false //不允许编辑图片
     }
-
+    
     
     //弹出图片选择器
     func presentImagePicker(){
@@ -69,54 +69,57 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
                 UIViewController.currentViewController()?.present(self.imagePickerController, animated: true, completion: nil)
                 
             }else{
-                debugPrint("不支持照相")
+                debugPrint("不支持照相功能")
+                let result = ["result": "failed","data":"不支持照相功能"]
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
             }
             
         }
         
-//        let videoAciton = UIAlertAction.init(title: "录像", style: .default) { (action) in
-//
-//            if  UIImagePickerController.isSourceTypeAvailable(.camera) {
-//
-//                self.imagePickerController.sourceType = UIImagePickerControllerSourceType.camera
-//                self.imagePickerController.mediaTypes = [kUTTypeMovie as String] //只显示录像功能
-//                self.imagePickerController.videoMaximumDuration = 10  //录制视频最长时间  10秒  默认为10分钟（600秒）
-//                self.imagePickerController.videoQuality = UIImagePickerControllerQualityType.typeMedium //设置视频的质量，默认就是TypeMedium
-//
-//
-//                UIViewController.currentViewController()?.present(self.imagePickerController, animated: true, completion: nil)
-//
-//
-//            }else{
-//                debugPrint("不支持录像")
-//            }
-//
-//        }
+        //        let videoAciton = UIAlertAction.init(title: "录像", style: .default) { (action) in
+        //
+        //            if  UIImagePickerController.isSourceTypeAvailable(.camera) {
+        //
+        //                self.imagePickerController.sourceType = UIImagePickerControllerSourceType.camera
+        //                self.imagePickerController.mediaTypes = [kUTTypeMovie as String] //只显示录像功能
+        //                self.imagePickerController.videoMaximumDuration = 10  //录制视频最长时间  10秒  默认为10分钟（600秒）
+        //                self.imagePickerController.videoQuality = UIImagePickerControllerQualityType.typeMedium //设置视频的质量，默认就是TypeMedium
+        //
+        //
+        //                UIViewController.currentViewController()?.present(self.imagePickerController, animated: true, completion: nil)
+        //
+        //
+        //            }else{
+        //                debugPrint("不支持录像")
+        //            }
+        //
+        //        }
         
         let photoLibrary = UIAlertAction.init(title: "从手机相册选择", style: .default) { (action) in
             
             if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 
                 self.imagePickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
-                self.imagePickerController.mediaTypes = UIImagePickerController.availableMediaTypes(for: UIImagePickerControllerSourceType.camera)! //视频+图片
                 
                 UIViewController.currentViewController()?.present(self.imagePickerController, animated: true, completion: nil)
                 
             }else{
-                debugPrint("不支持相册")
+                debugPrint("不支持相册功能")
+                let result = ["result": "failed","data":"不支持相册功能"]
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
             }
-        
+            
         }
         
         actionSheet.addAction(cancelAction)
         actionSheet.addAction(cameraAciton)
-//        actionSheet.addAction(videoAciton)
+        //        actionSheet.addAction(videoAciton)
         actionSheet.addAction(photoLibrary)
         
         UIViewController.currentViewController()?.present(actionSheet, animated: true, completion: nil)
         
     }
-
+    
     //MARK: UIImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
@@ -127,12 +130,11 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
         
         if mediaType == kUTTypeMovie as String{ //如果是视频的话
             saveMovie(info)
+            picker.dismiss(animated: true, completion: nil)
         }else if mediaType == kUTTypeImage as String{ //如果是图片
             savePicture(info)
         }
         
-        picker.dismiss(animated: true, completion: nil)
-
     }
     
     
@@ -171,29 +173,33 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
             savedImage = originalImage
         }
         
-        //保存图片到用户的相机胶卷中
-        UIImageWriteToSavedPhotosAlbum(savedImage!, nil, nil, nil)
         
-        
-        if self.retrunOriginal! == true{ //如果返回原图
+        if self.returnOriginal! == true{ //如果返回原图
             
             guard let _ = originalImage else{
-                let result = ["result": "failed","data":"获取原图失败"]
-                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                self.imagePickerController.dismiss(animated: true, completion: {
+                    let result = ["result": "failed","data":"获取原图失败"]
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                })
                 return
             }
             
             let filePath = self.saveImageToFile(imageData: UIImageJPEGRepresentation(originalImage!, 1.0)!)
             
-            //把拍照结果回传过去
-            let resultData:Dictionary<String,Any> = ["filePath":filePath]
-            let result:Dictionary<String,Any> = ["result": "success","data":resultData]
+            //把图片保存到相册中
+            self.savedPhotosAlbum(image: originalImage!)
             
-            NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+            self.imagePickerController.dismiss(animated: true, completion: {
+                //把拍照结果回传过去
+                let resultData:Dictionary<String,Any> = ["filePath":filePath]
+                let result:Dictionary<String,Any> = ["result": "success","data":resultData]
+                
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+            })
             
         }else{ //如果不返回原图，就根据参数去压缩图片质量
             
-
+            
             //得到压缩尺寸后的图片
             let resizeImage:UIImage? = self.resizeImage(originalImg: savedImage!)
             //得到压缩画质后的图片二进制流
@@ -204,7 +210,7 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
                     let imageData:Data? = data
                     
                     if let imageData = imageData{
-
+                        
                         //图片在磁盘上的路径
                         let filePath = self.saveImageToFile(imageData: imageData)
                         var resultData:Dictionary<String,Any> = ["filePath":filePath]
@@ -213,32 +219,59 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
                             resultData["base64"] = base64
                         }
                         
-                        let result:Dictionary<String,Any> = ["result": "success","data":resultData]
-                                        NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                        //保存图片到相册
+                        self.savedPhotosAlbum(image: UIImage(data: imageData)!)
+                        
+                        self.imagePickerController.dismiss(animated: true, completion: {
+                            DispatchQueue.main.async(execute: {
+                                let result:Dictionary<String,Any> = ["result": "success","data":resultData]
+                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                            })
+                        })
+                        
                         
                     }else{
-                        let result = ["result": "failed","data":"图片二进制流获取失败"]
-                        NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                        self.imagePickerController.dismiss(animated: true, completion: {
+                            DispatchQueue.main.async(execute: {
+                                let result = ["result": "failed","data":"图片二进制流获取失败"]
+                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                            })
+                        })
                     }
                     
                 })
-               
+                
                 
             }else{
-                let result = ["result": "failed","data":"图片画质压缩失败"]
-                NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                self.imagePickerController.dismiss(animated: true, completion: {
+                    let result = ["result": "failed","data":"图片画质压缩失败"]
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
+                })
+                
             }
-
+            
         }
- 
+        
+    }
+    
+    
+    //保存图片到相册
+    func savedPhotosAlbum(image:UIImage){
+        //判断是否支持把图片保存到相册中
+        if  UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            //保存图片到用户的相机胶卷中
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }else{
+            debugPrint("不支持把图片保存到相册中")
+        }
     }
     
     //MARK: 图片尺寸压缩
     /**
-         1、图片宽或者高均小于或等于1280时图片尺寸保持不变，不改变图片大小
-         2、宽或者高大于1280，但是图片宽度高度比小于或等于2，则将图片宽或者高取值大的等比压缩至1280
-         3、宽或者高均大于1280，但是图片宽高比大于2，则宽或者高取值小的等比压缩至1280
-         4、宽或者高，只有一个值大于1280，并且宽高比超过2，不改变图片大小
+     1、图片宽或者高均小于或等于1280时图片尺寸保持不变，不改变图片大小
+     2、宽或者高大于1280，但是图片宽度高度比小于或等于2，则将图片宽或者高取值大的等比压缩至1280
+     3、宽或者高均大于1280，但是图片宽高比大于2，则宽或者高取值小的等比压缩至1280
+     4、宽或者高，只有一个值大于1280，并且宽高比超过2，不改变图片大小
      */
     func resizeImage(originalImg:UIImage) -> UIImage?{
         
@@ -339,19 +372,19 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
             }else{
                 imageData(zipImageData!, nil)
             }
-        
+            
         }
         
     }
     
-
+    
     //MARK: 保存图片到磁盘中
     func saveImageToFile(imageData:Data) -> String{
         
         //在沙盒Tmp目录下创建ArenaPhotoFile文件夹
         let myDire: String = NSTemporaryDirectory() + "ArenaPhotoFile"
         try! FileManager.default.createDirectory(atPath: myDire, withIntermediateDirectories: true, attributes: nil)
-
+        
         
         //把图片保存本地沙盒中
         let timeInterval:TimeInterval = NSDate().timeIntervalSince1970 //获取当前时间戳
@@ -361,8 +394,8 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
         return imagePath
         
     }
-
-        
+    
+    
     
 }
 

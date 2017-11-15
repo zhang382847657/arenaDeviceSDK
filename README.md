@@ -12,7 +12,10 @@ pod 'ArenaDeviceSDK'
 ```
 
 
-> **注意：** 如果使用到了扫一扫功能，请在项目的Info.plist增加 `Privacy - Camera Usage Description` 访问相机的权限
+> **注意：** 
+> 
+> 1. 如果使用到了扫一扫功能，请在项目的Info.plist增加 `Privacy - Camera Usage Description` 访问您的相机
+> 2. 如果使用到了拍照功能，请在项目的Info.plist增加 `Privacy - Photo Library Additions Usage Description` 需要为您添加图片、`Privacy - Photo Library Usage Description` 想要访问您的相册、`Privacy - Camera Usage Description` 访问您的相机
 
 ### 获取UUID
  
@@ -38,3 +41,21 @@ let appName:String? = Device.appName()
 ```
 Device.scanQRCode()
 ```
+
+### 拍照
+弹出菜单框，可选择拍照或从相册中选取
+
+该方法返回图片在本地磁盘中的路径`filePath`,`base64`根据参数设置情况选择性返回
+
+```
+//Parameter
+// - returnOrigianl 是否返回原图
+// - maxSize        返回图片的最大大小(单位kb)  默认500kb
+// - returnType		返回数据类型  1：base64
+
+Device.takePhoto(["returnOrigianl":false,
+					["maxSize":500],
+					["returnType":1]])
+```
+
+
