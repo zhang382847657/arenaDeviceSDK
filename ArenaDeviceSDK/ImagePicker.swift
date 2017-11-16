@@ -222,20 +222,24 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
                         //保存图片到相册
                         self.savedPhotosAlbum(image: UIImage(data: imageData)!)
                         
-                        self.imagePickerController.dismiss(animated: true, completion: {
-                            DispatchQueue.main.async(execute: {
+                        //把结果回传，并关闭当前ImagePicker
+                        DispatchQueue.main.async(execute: {
+                            
+                            self.imagePickerController.dismiss(animated: true, completion: {
                                 let result:Dictionary<String,Any> = ["result": "success","data":resultData]
                                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
                             })
                         })
                         
-                        
                     }else{
-                        self.imagePickerController.dismiss(animated: true, completion: {
-                            DispatchQueue.main.async(execute: {
+                        
+                        DispatchQueue.main.async(execute: {
+                            
+                            self.imagePickerController.dismiss(animated: true, completion: {
                                 let result = ["result": "failed","data":"图片二进制流获取失败"]
                                 NotificationCenter.default.post(name:NSNotification.Name(rawValue: self.data!["callback"] as! String), object: result, userInfo: nil)
                             })
+                            
                         })
                     }
                     
@@ -255,14 +259,17 @@ class ImagePicker : NSObject, UIImagePickerControllerDelegate,UINavigationContro
     }
     
     
-    //保存图片到相册
+    //MARK: 保存图片到相册
     func savedPhotosAlbum(image:UIImage){
-        //判断是否支持把图片保存到相册中
-        if  UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            //保存图片到用户的相机胶卷中
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        }else{
-            debugPrint("不支持把图片保存到相册中")
+        //如果当前是拍照的话，才把图片保存到相册，否则不保存
+        if self.imagePickerController.sourceType == .camera{
+            //判断是否支持把图片保存到相册中
+            if  UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+                //保存图片到用户的相机胶卷中
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            }else{
+                debugPrint("不支持把图片保存到相册中")
+            }
         }
     }
     
